@@ -37,10 +37,11 @@ namespace RuintenOCR
                 {1, 1, 1, 1, 1, 1, 1}, //8
                 {1, 1, 1, 1, 0, 1, 1}  //9
                 };
-               
+
+        static bool isDebugMode = ConfigurationManager.AppSettings["RunMode"] == "d";
 
         static int Main(string[] args)
-        {
+        {            
             int result = 0; //성공 여부 0:실패 1:성공
             string resultOCR = ""; //Tesseract 결과
             //string numeric = ""; //필터링된 숫자
@@ -109,8 +110,8 @@ namespace RuintenOCR
                             r.Height <= detectHeight + 5
                             );
 
-                    //if (filteredBboxes.Count() < 1)
-                    //    Console.WriteLine("none.");
+                    if (isDebugMode)
+                        Console.WriteLine(filteredBboxes.Count());
 
                     //var orderedBboxes = filteredBboxes.OrderBy(r => r.Width);
 
@@ -124,6 +125,15 @@ namespace RuintenOCR
 
                         //rect 영역 crop
                         Mat mtCrop = mtSrc[rectTemp];
+
+                        if (isDebugMode)
+                        {
+                            using (new Window(mtCrop))
+                            {
+                                Window.WaitKey(0);
+                                Window.DestroyAllWindows();
+                            }
+                        }
 
                         resultOCR = Recognize(mtCrop, thresholdValue, rectTemp);
 
@@ -163,10 +173,10 @@ namespace RuintenOCR
                         {
                             result = 1; //성공
 
-                            if (ConfigurationManager.AppSettings["RunMode"].ToLower() == "d")
+                            Console.WriteLine(string.Format("{0}\t({1})", resultOCR, i));
+                            if (isDebugMode)
                             {
                                 //Console.WriteLine(string.Format("width : {0} height : {1}", rect.Width, rect.Height));
-                                Console.WriteLine(string.Format("{0}\t({1})", resultOCR, i));
                                 //Cv2.ImShow("mtCrop", mtCrop);
                                 //Cv2.WaitKey(0);
                                 //Cv2.DestroyWindow("seg");
@@ -235,6 +245,8 @@ namespace RuintenOCR
                 File.WriteAllText(string.Format("{0}\\{1}.txt", diEx.Name, DateTime.Now.ToString("yyMMddHHmmss")), ex.ToString());
 
                 //담당자에게 alert 전송                
+                if (isDebugMode)
+                    Console.WriteLine(ex);
             }
             finally
             {
@@ -304,7 +316,7 @@ namespace RuintenOCR
                 //숫자별 Matrix
                 mtSplit = mtThre[rectSplit];
 
-                if (ConfigurationManager.AppSettings["RunMode"].ToLower() == "d")
+                if (isDebugMode)
                 {
                     //Cv2.ImShow("seg", mtSplit);
                     //Cv2.WaitKey(0);
@@ -355,9 +367,11 @@ namespace RuintenOCR
                     Mat segROI = mtSplit[segRect];
 
                     //세그먼트 영역 표시 (확인 용도)
-                    if (ConfigurationManager.AppSettings["RunMode"].ToLower() == "d")//&& orderedBboxes.ElementAt(0) == rect)
+                    if (isDebugMode)//&& orderedBboxes.ElementAt(0) == rect)
                     {
-                        Cv2.CvtColor(mtClone, mtClone, ColorConversionCodes.GRAY2BGR);
+                        if (mtClone.Channels() < 3)
+                            Cv2.CvtColor(mtClone, mtClone, ColorConversionCodes.GRAY2BGR);
+
                         Cv2.Rectangle(mtClone, segRect, Scalar.Green);
                         if (segments.IndexOf(seg) == 6)
                         {
@@ -378,7 +392,8 @@ namespace RuintenOCR
                         rcgSeg.Add(0);
                 }
 
-
+                if (rcgSeg.Count() != 7)
+                    return resultSeg;
 
                 bool isFind = false;
                 int number = 10;
