@@ -68,6 +68,9 @@ namespace RuintenOCR
                     string.IsNullOrEmpty(ConfigurationManager.AppSettings["PathException"])
                     )
                     throw new ConfigurationErrorsException("config 파일 설정값 오류");
+                
+                //OpenCV 캡처 초기화
+                VideoCapture capture = VideoCapture.FromCamera(CaptureDevice.Any, deviceNumber);
 
                 DirectoryInfo diResult = new DirectoryInfo(ConfigurationManager.AppSettings["PathResult"]);
                 if (diResult.Exists == false)
@@ -79,15 +82,16 @@ namespace RuintenOCR
                     File.Delete(string.Format("{0}\\{1}", diResult.Name, file));
                 }
 
-                //OpenCV 캡처 초기화
-                VideoCapture capture = VideoCapture.FromCamera(CaptureDevice.Any, deviceNumber);
-
                 for (int i = 1; i <= runMaximum; i++)
                 {
                     resultOCR = "";
 
                     //화상을 Matrix 에 로드
                     capture.Read(mtSrc);
+
+                    //디바이스 문제
+                    if (mtSrc.Width < 3) //최소 3*3 
+                        throw new Exception("ERROR_DEVICE");
 
                     //영역 검출
                     MSER mser = MSER.Create();
@@ -246,6 +250,7 @@ namespace RuintenOCR
 
                 //담당자에게 alert 전송                
                 if (isDebugMode)
+                    //Console.WriteLine(result);
                     Console.WriteLine(ex);
             }
             finally
