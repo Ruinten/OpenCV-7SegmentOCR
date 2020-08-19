@@ -2,7 +2,7 @@
 
 액정화면에서 6자리 숫자를 인식하는 기능을 구현되어있다.
 <div>
-<img src="" />    
+<img src="https://user-images.githubusercontent.com/31661769/90608750-ffc1e100-e23d-11ea-9076-3b9449fb2632.jpg" />    
 </div>
 
 ### RuintenOCR 하위 폴더 구조
@@ -44,21 +44,21 @@ exe 파일 실행(호출)
 
 1. Windows 연결된 카메라에서 화상 읽어오기
 2. 읽어온 화상에서 특정 크기(DetectWidth * DetectHeight)의 사각형 영역 검출
-<div>
-<img src="https://user-images.githubusercontent.com/31661769/90608748-ff294a80-e23d-11ea-895a-d14fc29bc232.png" />    
-</div>
 3. 검출된 사각 영역을 Grayscale 변환
 4. Noise 제거
 5. 잡영 제거
 6. 경계 강화
-<div>
-<img src="https://user-images.githubusercontent.com/31661769/90608743-fdf81d80-e23d-11ea-8030-8507ebd4fca3.png" />    
-</div>
+
 7. 문자 인식
 8. 인식 결과에서 숫자가 6개가 아니면 반복
 9. 6개 숫자가 나오면 ruintenocr\result 에 검출된 숫자를 파일명으로 화상 저장
 
-
+<div>
+<img src="https://user-images.githubusercontent.com/31661769/90608748-ff294a80-e23d-11ea-895a-d14fc29bc232.png" />    
+</div>
+<div>
+<img src="https://user-images.githubusercontent.com/31661769/90608743-fdf81d80-e23d-11ea-8030-8507ebd4fca3.png" />    
+</div>
 ### 실행 환경
 
 * OS : Windows 10 (.NET Framework 4.6 이상)
