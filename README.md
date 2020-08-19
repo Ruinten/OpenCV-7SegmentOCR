@@ -48,7 +48,6 @@ exe 파일 실행(호출)
 4. Noise 제거
 5. 잡영 제거
 6. 경계 강화
-
 7. 문자 인식
 8. 인식 결과에서 숫자가 6개가 아니면 반복
 9. 6개 숫자가 나오면 ruintenocr\result 에 검출된 숫자를 파일명으로 화상 저장
@@ -59,6 +58,7 @@ exe 파일 실행(호출)
 <div>
 <img src="https://user-images.githubusercontent.com/31661769/90608743-fdf81d80-e23d-11ea-8030-8507ebd4fca3.png" />    
 </div>
+
 ### 실행 환경
 
 * OS : Windows 10 (.NET Framework 4.6 이상)
