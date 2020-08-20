@@ -1,8 +1,12 @@
 # OpenCV-7SegmentOCR
 
-액정화면에서 6자리 숫자를 인식하는 기능을 구현되어있다.
+액정화면에서 6자리 숫자를 인식시켜 문자열로 추출하는 어플리케이션.
 <div>
 <img src="https://user-images.githubusercontent.com/31661769/90608750-ffc1e100-e23d-11ea-9076-3b9449fb2632.jpg" />    
+</div>
+
+<div>
+<img src="https://user-images.githubusercontent.com/31661769/90705015-ec118b80-e2cc-11ea-8066-dbb769ac8c00.png" />    
 </div>
 
 ### RuintenOCR 하위 폴더 구조
@@ -61,6 +65,7 @@ exe 파일 실행(호출)
 <div>
 <img src="https://user-images.githubusercontent.com/31661769/90609538-2a606980-e23f-11ea-8d7a-666055f8cb55.png" />    
 </div>
+
 
 ### 실행 환경
 
